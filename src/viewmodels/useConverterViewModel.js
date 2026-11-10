@@ -7,18 +7,15 @@ import {
 } from '../models/currencyModel';
 
 export default function useConverterViewModel() {
-  // Dados digitados e selecionados pelo usuário
   const [amount, setAmount] = useState('');
   const [currencies, setCurrencies] = useState([]);
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('BRL');
 
-  // Estados da aplicação
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState(null);
 
-  // Carrega as moedas quando o aplicativo inicia
   useEffect(() => {
     async function loadCurrencies() {
       try {
@@ -26,7 +23,6 @@ export default function useConverterViewModel() {
 
         setCurrencies(data);
 
-        // Confirma se as moedas iniciais estão disponíveis
         if (!data.some((currency) => currency.code === 'USD')) {
           setFromCurrency(data[0]?.code || '');
         }
@@ -42,12 +38,10 @@ export default function useConverterViewModel() {
     loadCurrencies();
   }, []);
 
-  // Realiza a conversão
   async function handleConvert() {
     setError('');
     setResult(null);
 
-    // Verifica se o campo foi preenchido
     const cleanedAmount = amount.trim();
 
     if (!cleanedAmount) {
@@ -55,8 +49,6 @@ export default function useConverterViewModel() {
       return;
     }
 
-    // Aceita vírgula ou ponto como separador decimal,
-    // mas não permite os dois na mesma entrada.
     if (!/^\d+([,.]\d+)?$/.test(cleanedAmount)) {
       setError('Digite um valor numérico válido. Exemplo: 10,50.');
       return;
@@ -84,13 +76,11 @@ export default function useConverterViewModel() {
     try {
       setLoading(true);
 
-      // Consulta a taxa através do Model
       const exchange = await getExchangeRate(
         fromCurrency,
         toCurrency
       );
 
-      // Calcula o resultado usando a taxa real
       const convertedAmount = numericAmount * exchange.rate;
 
       setResult({
