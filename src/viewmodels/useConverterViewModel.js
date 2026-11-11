@@ -38,7 +38,15 @@ export default function useConverterViewModel() {
     loadCurrencies();
   }, []);
 
-  async function handleConvert() {
+    function handleSwapCurrencies() {
+        setFromCurrency(toCurrency);
+        setToCurrency(fromCurrency);
+
+        setResult(null);
+        setError('');
+    }
+
+    async function handleConvert() {
     setError('');
     setResult(null);
 
@@ -100,7 +108,7 @@ export default function useConverterViewModel() {
     }
   }
 
-  return {
+    return {
     amount,
     setAmount,
     currencies,
@@ -109,8 +117,9 @@ export default function useConverterViewModel() {
     toCurrency,
     setToCurrency,
     onConvert: handleConvert,
+    onSwap: handleSwapCurrencies,
     loading,
     error,
     result,
-  };
+    };
 }

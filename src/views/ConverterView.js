@@ -20,6 +20,7 @@ export default function ConverterView({
   toCurrency,
   setToCurrency,
   onConvert,
+  onSwap,
   loading,
   error,
   result,
@@ -72,6 +73,16 @@ export default function ConverterView({
           </Picker>
         </View>
 
+        <Pressable
+          style={styles.swapButton}
+          onPress={onSwap}
+          disabled={!fromCurrency || !toCurrency || loading}
+        >
+          <Text style={styles.swapButtonText}>
+            ⇅ Inverter moedas
+          </Text>
+        </Pressable>
+
         <Text style={styles.label}>Moeda de destino</Text>
 
         <View style={styles.pickerContainer}>
@@ -113,7 +124,9 @@ export default function ConverterView({
 
       {result ? (
         <View style={styles.resultCard}>
-          <Text style={styles.resultTitle}>Resultado da conversão</Text>
+          <Text style={styles.resultTitle}>
+            Resultado da conversão
+          </Text>
 
           <Text style={styles.originalValue}>
             {formatCurrency(result.amount, result.from)}
@@ -196,6 +209,19 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     overflow: 'hidden',
     marginBottom: 5,
+  },
+  swapButton: {
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginVertical: 8,
+    backgroundColor: '#EAF0F8',
+    borderRadius: 6,
+  },
+  swapButtonText: {
+    color: '#2457A6',
+    fontSize: 14,
+    fontWeight: '600',
   },
   button: {
     height: 48,
